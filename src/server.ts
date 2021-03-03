@@ -1,16 +1,26 @@
-import './utils/module-alias';
 import { Server } from '@overnightjs/core';
 import { Application } from 'express';
 import bodyParser from 'body-parser';
 import Controllers from '@src/controllers/index';
+import { IEnvSetup } from './@types/IEnvSetup';
+import { Logger } from '@overnightjs/logger';
+import { Server as HttpServer } from 'http';
 
-export class SetupServer extends Server {
+type Port = string | number | undefined;
+
+export class SetupServer extends Server implements IEnvSetup {
+  private server!: HttpServer;
   /*
    * same as this.port = port, declaring as private here will
    * add the port variable to the SetupServer instance
    */
-  constructor(private port = 3000) {
+  constructor(private port: Port = 3000) {
     super();
+  }
+
+  public shutdown(reason: Error): void {
+    this.server.close();
+    console.error(reason);
   }
 
   /*
@@ -20,6 +30,7 @@ export class SetupServer extends Server {
   public async init(): Promise<void> {
     this.setupExpress();
     this.setupControllers();
+    this.startServer();
   }
 
   private setupExpress(): void {
@@ -28,10 +39,16 @@ export class SetupServer extends Server {
   }
 
   private setupControllers(): void {
-    for(const Controller of Controllers){
-      const controller = new Controller;
+    for (const Controller of Controllers) {
+      const controller = new Controller();
       this.addControllers(controller);
     }
+  }
+
+  private startServer() {
+    this.server = this.app.listen(this.port, () => {
+      Logger.Imp('Server listening on port: ' + this.port);
+    });
   }
 
   public getApp(): Application {

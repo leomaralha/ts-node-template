@@ -1,20 +1,15 @@
+import { User } from '@src/database/models/User';
 import { NextFunction, Response, Request } from 'express';
 
 const authMiddleware = (
   req: Request,
-  res: Response,
+  _: Response,
   next: NextFunction
 ): void => {
-
-
   req.context = {
-    user: {
-      id: 1,
-      name: 'léo',
-    },
+    user: new User({ name: 'leo', preferredName: 'maralha', id: 1 }),
   };
 
-  
   next();
 };
 

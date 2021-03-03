@@ -26,6 +26,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "src/utils/database/logger.TS"],
   "exclude": ["./node_modules/*", "dist"]
 }

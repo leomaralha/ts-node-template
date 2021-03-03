@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  web:
+    container_name: server
+    build:
+      dockerfile: ./src/Dockerfiles/dev/DockerFile
+      context: .
+    ports:
+      - '3000:3000'
+      - '9229:9229'
+    environment:
+      - NODE_ENV=development
+      - NODE_PORT=3000
+    volumes:
+      - .:/server
+    links:
+      - db
+
+  db:
+    container_name: postgres-main
+    image: postgres:13.2
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=q55324
+    volumes:
+      - ./.data/postgresql:/var/lib/postgresql/data
+    ports:
+      - '3002:5432'

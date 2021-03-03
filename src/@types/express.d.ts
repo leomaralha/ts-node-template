@@ -1,9 +1,6 @@
 import * as http from 'http';
-
-interface User {
-  id: number;
-  name: string;
-}
+import { User } from '@src/database/models/User';
+import { Model, ModelCtor, Sequelize } from 'sequelize/types';
 
 // module augmentation
 declare module 'express-serve-static-core' {
@@ -11,6 +8,9 @@ declare module 'express-serve-static-core' {
     context?: {
       user: User;
     };
+    models: {
+      [key: string]: ModelCtor<Model>;
+    };
+    sequelize: Sequelize;
   }
 }
-
