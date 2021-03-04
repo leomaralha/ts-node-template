@@ -5,7 +5,6 @@ import {
   DataTypes,
   Optional,
   Association,
-  ModelCtor,
 } from 'sequelize';
 import { Post } from './Post';
 
@@ -33,9 +32,10 @@ class User
     User.init(
       {
         id: {
-          type: DataTypes.INTEGER,
           allowNull: false,
-          primaryKey: true
+          primaryKey: true,
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
         },
         name: {
           type: DataTypes.STRING,

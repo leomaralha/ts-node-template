@@ -1,6 +1,5 @@
 import { ModelCollection } from '@src/@types/sequelize';
 import { Sequelize, Model, DataTypes, Optional } from 'sequelize';
-import { User } from './User';
 
 // These are all the attributes in the User model
 interface PostAttributes {
@@ -27,9 +26,10 @@ class Post
     Post.init(
       {
         id: {
-          type: DataTypes.INTEGER,
           allowNull: false,
           primaryKey: true,
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
         },
         name: {
           type: DataTypes.STRING,

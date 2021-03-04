@@ -1,10 +1,13 @@
+import { Dialect } from "sequelize/types";
+
 export interface DatabaseAuthCredentials {
     database: string;
     host: string;
     password: string;
     uri: string;
+    dialect: Dialect;
 }
 
 export interface IGetConnection {
-    getDbCredentials(companyName: string): Promise<DatabaseAuthCredentials>;
+    getDbCredentials(hostName: string): Promise<DatabaseAuthCredentials>;
 }

@@ -7,17 +7,18 @@ const modelInjection = async (
   _: Response,
   next: NextFunction
 ): Promise<void> => {
-  const connectionController = new ConnectionController(connGetter);
-  const companyName = req.query.companyName;
+  try {
+    const host = req.hostname;
+    const connectionController = new ConnectionController(connGetter);
+    const sequelize = await connectionController.initSequelize(host);
 
-  if (typeof companyName !== 'string') {
-    throw new Error('unexpected type of companyName');
+    req.sequelize = sequelize;
+    req.models = sequelize.models;
+
+    next();
+  } catch (error) {
+    next(error);
   }
-  
-  const sequelize = await connectionController.initSequelize(companyName);
-  req.models = sequelize.models;
-  req.sequelize = sequelize;
-  next();
 };
 
 export default modelInjection;

@@ -8,11 +8,11 @@ class ConnectionController {
   private sequelize!: Sequelize;
   constructor(private connHanlder: IGetConnection) {}
 
-  public async initSequelize(companyName: string): Promise<Sequelize> {
-    const { uri: databaseURI } = await this.connHanlder.getDbCredentials(
-      companyName
+  public async initSequelize(hostName: string): Promise<Sequelize> {
+    const { uri: databaseURI, dialect } = await this.connHanlder.getDbCredentials(
+      hostName
     );
-    const sequelize = new Sequelize(databaseURI, { dialect: 'postgres', logging:  logger});
+    const sequelize = new Sequelize(databaseURI, { dialect, logging:  logger});
     this.sequelize = sequelize;
 
     const modelArray = models.toArray();

@@ -11,9 +11,9 @@ class GetDevConnection implements IGetConnection {
     return {
       host: 'db',
       database: 'db',
+      dialect: 'sqlite',
       password: 'q55324',
-      dialect: 'postgres',
-      uri: 'postgres://postgres:q55324@db:5432/db',
+      uri: 'sqlite::memory:',
     };
   }
 }

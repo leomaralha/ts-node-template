@@ -9,10 +9,11 @@ class GetProdConnection implements IGetConnection {
   ): Promise<DatabaseAuthCredentials> {
     console.log(companyName);
     return {
-      database: 'test',
-      host: 'test',
-      password: 'test',
       uri: 'test',
+      host: 'test',
+      database: 'test',
+      password: 'test',
+      dialect: 'postgres',
     };
   }
 }

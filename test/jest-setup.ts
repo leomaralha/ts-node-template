@@ -1,8 +1,16 @@
-import { SetupServer } from '@src/server';
+import { App } from '@src/App';
 import supertest from 'supertest';
+import { DoneCallbalck } from './server';
 
 beforeAll(async () => {
-  const server = new SetupServer();
-  await server.init();
-  global.testRequest = supertest(server.getApp());
+  const serverStartupConfig = { startListening: false };
+  await App.up(serverStartupConfig);
+
+  const server = App.server;
+  const expressApp = server.getApp();
+  global.testRequest = supertest(expressApp);
+});
+
+afterAll(async (onDone: DoneCallbalck) => {
+  await App.down({onClose: onDone});
 });
